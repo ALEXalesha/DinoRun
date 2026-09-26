@@ -104,7 +104,9 @@
       this.game = o.game || {};
       this.mode = 'menu';            // menu | play | paused
       this.stack = [];
-      this.settings = Object.assign({}, DEFAULT_SETTINGS, o.settings || {}, this.load('settings', {}));
+      const extra = {};
+      for (const x of o.extraSettings || []) extra[x.name] = x.default;
+      this.settings = Object.assign({}, DEFAULT_SETTINGS, extra, o.settings || {}, this.load('settings', {}));
       this.actions = o.actions || {};
       this.bindings = this.defaultBindings();
       const savedB = this.load('bindings', null);
@@ -276,6 +278,11 @@
       this.held.add(code);
     }
 
+    // Первый подключённый геймпад (для аналоговых стиков в игре) или null
+    pad() {
+      const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+      return Array.from(pads || []).find((p) => p && p.connected) || null;
+    }
     // Геймпад: стандартная раскладка, опрос каждый кадр
     pollPad() {
       const pads = navigator.getGamepads ? navigator.getGamepads() : [];
@@ -566,6 +573,7 @@
       }
       node.appendChild(row('Сложность', seg));
       if (this.o.difficultyNote) node.appendChild(this.el('p', 'lbl', `<small style="color:var(--kit-dim)">${this.o.difficultyNote}</small>`));
+      for (const x of this.o.extraSettings || []) node.appendChild(row(x.label, toggle(x.name)));
       node.appendChild(this.el('div', 'kit-sec', 'Графика'));
       node.appendChild(row('Частицы и вспышки', toggle('effects')));
       node.appendChild(row('Тряска экрана', toggle('shake')));
