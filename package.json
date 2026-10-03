@@ -1,0 +1,20 @@
+{
+  "name": "dinorun",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dino Run: jump over cacti and duck under birds - a journey of four stages and an endless run, in one HTML page (fan-made)",
+  "author": "ALEXalesha",
+  "license": "MIT",
+  "homepage": "https://alexalesha.github.io/DinoRun/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ALEXalesha/DinoRun.git"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "screenshots": "node tools/screenshots.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1"
+  }
+}
